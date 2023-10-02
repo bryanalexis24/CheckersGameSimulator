@@ -1,6 +1,8 @@
-# If any values must be changed, all variables can be tracked here and easily be changed,
-# preventing potential bugs
-
+import pygame
+"""
+If any values must be changed, all variables can be tracked here and easily be changed,
+preventing potential bugs
+"""
 import pygame
 # Names of constants are typically all capitalized
 WIDTH, HEIGHT = 800, 800 # Dimensions in pixels of the game's window

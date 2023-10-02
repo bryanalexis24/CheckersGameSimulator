@@ -1,5 +1,7 @@
 import pygame
 from checkers.constants import WIDTH, HEIGHT
+from checkers.board import Board
+
 """
 1. Set up a pygame display
 2. Set up a basic event loop
@@ -20,6 +22,8 @@ def main():
     run =  True
     # Have the game run at a constant frame rate
     clock = pygame.time.Clock()
+    # Make board object
+    board = Board()
     # Event loop that will run every x times per second to make checks/update display
     while run:
         clock.tick(FPS)
@@ -31,7 +35,8 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN: # Checks if mouse is pressed
                 pass
-
+        board.draw_squares(WIN) # Draw square at end of each loop
+        pygame.display.update() # Update the display in pygame
     pygame.quit() # Closes window
 
 main()
