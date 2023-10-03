@@ -1,10 +1,10 @@
 import pygame
-from checkers.constants import WIDTH, HEIGHT
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
 from checkers.board import Board
 
 """
 1. Set up a pygame display
-2. Set up a basic event loop
+2. Set up a basic event loops
     Ex. Check if mouse was clicked
 3. Set up basic drawings
     a. Draw board
@@ -17,6 +17,13 @@ FPS = 60 # Frame rate for game
 WIN = pygame.display.set_mode((WIDTH, HEIGHT)) # Define both variables in constants file
 pygame.display.set_caption('Checkers Game') # Name displayed at top of window when opened
 
+# Take the position of mouse and indicate what row/column mouse is in
+def get_row_col_from_mouse(pos):
+    x, y = pos # x and y positions of mouse
+    row = y // SQUARE_SIZE # Indicate row mouse is positioned in
+    col = x // SQUARE_SIZE # Indicate column mouse is positioned in
+    return row, col
+
 # Main function that will run the game
 def main():
     run =  True
@@ -25,8 +32,6 @@ def main():
     # Make board object
     board = Board()
 
-    piece = board.get_piece(0, 1) # Test
-    board.move(piece, 4, 3) # Test
 
     # Event loop that will run every x times per second to make checks/update display
     while run:
@@ -38,7 +43,12 @@ def main():
                 run = False # Ends loop
 
             if event.type == pygame.MOUSEBUTTONDOWN: # Checks if mouse is pressed
-                pass
+                # Call methods to move piece
+                pos = pygame.mouse.get_pos()
+                row, col = get_row_col_from_mouse(pos)
+                piece = board.get_piece(row, col)
+                board.move(piece, 4, 3) # Test
+
         board.draw(WIN) # Draw square at end of each loop
         pygame.display.update() # Update the display in pygame
     pygame.quit() # Closes window
