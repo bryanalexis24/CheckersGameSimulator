@@ -1,5 +1,6 @@
 import pygame
-from .constants import BLACK, RED, ROWS, SQUARE_SIZE
+from .constants import BLACK, RED, ROWS, SQUARE_SIZE, COLS, WHITE
+from .piece import Piece
 """
 Represents the checkers board
 Will handle: 
@@ -14,6 +15,7 @@ class Board:
         self.selected_piece = None # Keep track of currently selected piece
         self.red_left = self.white_left = 12 # Number of red and white pieces at start
         self.red_kings = self.white_kings = 0 # Number of red & white king pieces at start
+        self.design_board() # Creates the board
 
     # Will draw red and black squares in checkerboard pattern on the window
     def draw_squares(self, win):
@@ -23,5 +25,30 @@ class Board:
                 pygame.draw.rect(win, RED, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)) # Draw red square
 
     # Design the internal representation of the board, and add pieces
+    # White pieces at top, red at bottom
     def design_board(self):
-        pass           
+        for row in range(ROWS):
+            self.board.append([]) # List that represents what each row will have inside
+            for col in range(COLS):
+                # Draw piece in every other column, alternating per row
+                if col % 2 == ((row + 1) % 2):
+                    # Draw white pieces in first 3 rows
+                    if row < 3:
+                        self.board[row].append(Piece(row, col, WHITE))
+                    # Draw red pieces in last 3 rows
+                    elif row > 4:
+                        self.board[row].append(Piece(row, col, RED))
+                    # Blank piece
+                    else:
+                        self.board[row].append(0) 
+                # If we don't add a piece, add 0 to separate and keep track of where pieces are
+                else:
+                    self.board[row].append(0)
+    # Draw each piece on non 0 spaces
+    def draw(self, win):
+        self.draw_squares(win) # Call method here so that it doesn't have to be called again in main class
+        for row in range(ROWS):
+            for col in range(COLS):
+                piece = self.board[row][col]
+                if piece != 0:
+                    piece.draw(win)

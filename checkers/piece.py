@@ -1,7 +1,7 @@
 import pygame
 from .constants import RED, WHITE, SQUARE_SIZE, GREY
 class Piece:
-    PADDING = 10 # Padding between piece and edge of square
+    PADDING = 17 # Padding between piece and edge of square
     OUTLINE = 2 # The outline/border
 
     # Initialize the object's (or checkers piece) attributes

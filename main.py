@@ -35,7 +35,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN: # Checks if mouse is pressed
                 pass
-        board.draw_squares(WIN) # Draw square at end of each loop
+        board.draw(WIN) # Draw square at end of each loop
         pygame.display.update() # Update the display in pygame
     pygame.quit() # Closes window
 
