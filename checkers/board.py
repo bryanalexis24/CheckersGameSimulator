@@ -24,6 +24,24 @@ class Board:
             for col in range(row % 2, ROWS, 2): # Start in every other column to draw red square on top of window
                 pygame.draw.rect(win, RED, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)) # Draw red square
 
+    # Delete piece from where it is and move to new position
+    def move(self, piece, row, col):
+        # Swap the values of the piece that will be moved, and the empty piece that is the position desired
+        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        # Move the piece
+        piece.move(row, col)
+        # Check if row, col that we move to is a position where piece should become king
+        if row == ROWS - 1 or row == 0: # Remove - 1 if not working
+            piece.make_king()
+            if piece.color == WHITE:
+                self.white_kings += 1
+            else:
+                self.red_kings += 1
+
+    # Give board object row and col, and it'll give you a piece in return
+    def get_piece(self, row, col):
+        return self.board[row][col]
+    
     # Design the internal representation of the board, and add pieces
     # White pieces at top, red at bottom
     def design_board(self):
