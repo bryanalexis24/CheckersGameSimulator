@@ -1,0 +1,44 @@
+import pygame
+from .constants import RED, WHITE, SQUARE_SIZE, GREY
+class Piece:
+    PADDING = 10 # Padding between piece and edge of square
+    OUTLINE = 2 # The outline/border
+
+    # Initialize the object's (or checkers piece) attributes
+    def __init__(self, row, col, color):
+        # Instance variables
+        self.row = row
+        self.col = col
+        self.color = color
+        self.king = False
+
+        if self.color == RED:
+            self.direction = -1 # Red pieces move up
+        else:
+            self.direction = 1 # White pieces move down
+
+        # Store pieces' positions
+        self.x = 0 
+        self.y = 0
+        # Call method
+        self.calc_pos() 
+
+    # Calculate x and y position based on the row and column the piece is located in
+    def calc_pos(self):
+        # Circular pieces are drawn from the center, therefore must be in middle of square on board
+        self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2 # x coordinate of center of square
+        self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2 # y coordinate of center of square
+
+    # Marks a piece as a king piece when called
+    def make_king(self):
+        self.king = True
+    
+    # Draw pieces on window
+    def draw(self, win):
+        radius = SQUARE_SIZE // 2 - self.PADDING # Radius of circle
+        pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.OUTLINE) # Draw outline
+        pygame.draw.circle(win, self.color, (self.x, self.y), radius) # Draw inner circle
+
+    # Internal representation of object in string, in case of bugs
+    def __repr__(self):
+        return str(self.color)
