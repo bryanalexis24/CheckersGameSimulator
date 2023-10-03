@@ -39,4 +39,4 @@ def main():
         pygame.display.update() # Update the display in pygame
     pygame.quit() # Closes window
 
-main()
+main() # Call to function
