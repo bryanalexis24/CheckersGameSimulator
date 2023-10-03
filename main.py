@@ -24,6 +24,10 @@ def main():
     clock = pygame.time.Clock()
     # Make board object
     board = Board()
+
+    piece = board.get_piece(0, 1) # Test
+    board.move(piece, 4, 3) # Test
+
     # Event loop that will run every x times per second to make checks/update display
     while run:
         clock.tick(FPS)
