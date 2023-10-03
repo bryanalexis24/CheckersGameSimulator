@@ -21,4 +21,7 @@ class Board:
         for row in range(ROWS):
             for col in range(row % 2, ROWS, 2): # Start in every other column to draw red square on top of window
                 pygame.draw.rect(win, RED, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)) # Draw red square
-                        
+
+    # Design the internal representation of the board, and add pieces
+    def design_board(self):
+        pass           
