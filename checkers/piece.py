@@ -1,5 +1,5 @@
 import pygame
-from .constants import RED, WHITE, SQUARE_SIZE, GREY
+from .constants import RED, WHITE, SQUARE_SIZE, GREY, CROWN
 class Piece:
     PADDING = 17 # Padding between piece and edge of square
     OUTLINE = 2 # The outline/border
@@ -38,6 +38,10 @@ class Piece:
         radius = SQUARE_SIZE // 2 - self.PADDING # Radius of circle
         pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.OUTLINE) # Draw outline
         pygame.draw.circle(win, self.color, (self.x, self.y), radius) # Draw inner circle
+        # Draw crown on king piece
+        if self.king:
+            # Calculations are done to make sure the crown is drawn at the middle, instead of starting at middle
+            win.blit(CROWN, (self.x - CROWN.get_width() // 2, self.y - CROWN.get_height() // 2))
 
     # Internal representation of object in string, in case of bugs
     def __repr__(self):
