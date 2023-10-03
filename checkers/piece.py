@@ -43,6 +43,12 @@ class Piece:
             # Calculations are done to make sure the crown is drawn at the middle, instead of starting at middle
             win.blit(CROWN, (self.x - CROWN.get_width() // 2, self.y - CROWN.get_height() // 2))
 
+    # Move piece to new position
+    def move(self, row, col):
+        self.row = row
+        self.col = col
+        self.calc_pos()
+
     # Internal representation of object in string, in case of bugs
     def __repr__(self):
         return str(self.color)
