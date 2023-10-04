@@ -1,5 +1,5 @@
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkers.game import Game
 
 """
@@ -45,6 +45,5 @@ def main():
                 row, col = get_row_col_from_mouse(pos)
                 game.select(row, col)
         game.update() # Update game
-
     pygame.quit() # Closes window
 main() # Call to function

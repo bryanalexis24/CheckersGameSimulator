@@ -69,11 +69,16 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(win)
-                    
+
     # Remove pieces after they're jumped over
     def remove(self, pieces):
         for piece in pieces:
             self.board[piece.row][piece.col] = 0
+            if piece != 0:
+                if piece.color == RED:
+                    self.red_left -= 1
+                else:
+                    self.white_left -= 1
 
     # Gets valid potential moves
     def get_valid_moves(self, piece):

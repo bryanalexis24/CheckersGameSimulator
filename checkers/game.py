@@ -26,10 +26,6 @@ class Game:
         self.draw_valid_moves(self.valid_moves) ##### Might have to import ####################
         pygame.display.update()
 
-    # Game's winner
-    def winner(self):
-        return self.board.winner()
-    
     # Reset game, instead of calling _init
     def reset(self):
         self._init()
@@ -51,7 +47,7 @@ class Game:
             return True # Return true if selection was valid
         return False # Return false if not valid
     
-    # Move piece      #########CHANGE
+    # Move piece
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
         # Can only move piece if empty space is selected after first non-empty space (piece) is selected
