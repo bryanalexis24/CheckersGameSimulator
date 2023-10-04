@@ -43,7 +43,9 @@ def main():
                 # Call methods to move piece
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                game.select(row, col)
+                if game.turn == RED:
+                    game.select(row, col)
         game.update() # Update game
+        
     pygame.quit() # Closes window
 main() # Call to function

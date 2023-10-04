@@ -115,7 +115,7 @@ class Board:
                     # Call recursively to see double jump
                     moves.update(self._traverse_left(r + step, row, step, color, left - 1, skipped = last))
                     moves.update(self._traverse_right(r + step, row, step, color, left + 1, skipped = last))
-                    break
+                break
             # Same pieces can't be jumped over
             elif current.color == color:
                 break
@@ -133,7 +133,7 @@ class Board:
             # If potential move is outside of board, stop
             if right >= COLS:
                 break
-            current = self.boardself.board[r][right]
+            current = self.board[r][right]
             # Found empty square
             if current == 0:
                 # If a piece was jumped over and there isn't another piece that can be skipped, can't move to square
@@ -154,7 +154,7 @@ class Board:
                     # Call recursively to see double jump
                     moves.update(self._traverse_left(r + step, row, step, color, right - 1, skipped = last))
                     moves.update(self._traverse_right(r + step, row, step, color, right + 1, skipped = last))
-                    break
+                break
             # Same pieces can't be jumped over
             elif current.color == color:
                 break

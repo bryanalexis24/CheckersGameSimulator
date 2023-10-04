@@ -26,6 +26,10 @@ class Game:
         self.draw_valid_moves(self.valid_moves) ##### Might have to import ####################
         pygame.display.update()
 
+    # Game's winner
+    def winner(self):
+        return self.board.winner()
+    
     # Reset game, instead of calling _init
     def reset(self):
         self._init()
@@ -39,13 +43,12 @@ class Game:
             if not result:
                 self.selected = None # Reset selection
                 self.select(row, col) # Reselect another piece
-            piece = self.board.get_piece(row, col)
-            # If a non-empty piece is selected
-            if piece != 0 and piece.color == self.turn:
-                self.selected = piece
-                self.valid_moves = self.board.get_valid_moves(piece)
-                return True # Return true if selection was valid
-        
+        piece = self.board.get_piece(row, col)
+        # If a non-empty piece is selected
+        if piece != 0 and piece.color == self.turn:
+            self.selected = piece
+            self.valid_moves = self.board.get_valid_moves(piece)
+            return True # Return true if selection was valid
         return False # Return false if not valid
     
     # Move piece      #########CHANGE
@@ -54,6 +57,9 @@ class Game:
         # Can only move piece if empty space is selected after first non-empty space (piece) is selected
         if self.selected and piece == 0 and (row, col) in self.valid_moves:
             self.board.move(self.selected, row, col) # Move currently selected piece to row and column
+            skipped = self.valid_moves[(row, col)]
+            if skipped:
+                self.board.remove(skipped)
             self.change_turn() # Change the turn
         else:
             return False
@@ -71,4 +77,4 @@ class Game:
     def draw_valid_moves(self, moves):
         for move in moves:
             row, col = move
-            pygame.draw.circle(self.win, BLUE, (row * SQUARE_SIZE - SQUARE_SIZE // 2, col * SQUARE_SIZE // 2), 15)
+            pygame.draw.circle(self.win, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2), 15)
