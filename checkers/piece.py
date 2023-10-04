@@ -42,7 +42,3 @@ class Piece:
         self.row = row
         self.col = col
         self.calc_pos()
-
-    # Internal representation of object in string, in case of bugs
-    def __repr__(self):
-        return str(self.color)
