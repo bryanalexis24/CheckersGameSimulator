@@ -1,6 +1,6 @@
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
-from checkers.board import Board
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED
+from checkers.game import Game
 
 """
 1. Set up a pygame display
@@ -29,10 +29,8 @@ def main():
     run =  True
     # Have the game run at a constant frame rate
     clock = pygame.time.Clock()
-    # Make board object
-    board = Board()
-
-
+    # Make game object
+    game = Game(WIN)
     # Event loop that will run every x times per second to make checks/update display
     while run:
         clock.tick(FPS)
@@ -41,16 +39,11 @@ def main():
             # Check if event is specific type
             if event.type == pygame.QUIT: # Event example
                 run = False # Ends loop
-
             if event.type == pygame.MOUSEBUTTONDOWN: # Checks if mouse is pressed
                 # Call methods to move piece
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                piece = board.get_piece(row, col)
-                board.move(piece, 4, 3) # Test
-
-        board.draw(WIN) # Draw square at end of each loop
-        pygame.display.update() # Update the display in pygame
+                game.select(row, col)
+        game.update() # Update game
     pygame.quit() # Closes window
-
 main() # Call to function
