@@ -11,12 +11,6 @@ class Piece:
         self.col = col
         self.color = color
         self.king = False
-
-        if self.color == RED:
-            self.direction = -1 # Red pieces move up
-        else:
-            self.direction = 1 # White pieces move down
-
         # Store pieces' positions
         self.x = 0 
         self.y = 0

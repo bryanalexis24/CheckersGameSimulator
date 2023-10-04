@@ -12,7 +12,6 @@ Will handle:
 class Board: 
     def __init__(self):
         self.board = [] # Internal representation of board (2D array)
-        self.selected_piece = None # Keep track of currently selected piece
         self.red_left = self.white_left = 12 # Number of red and white pieces at start
         self.red_kings = self.white_kings = 0 # Number of red & white king pieces at start
         self.design_board() # Creates the board
@@ -70,3 +69,97 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(win)
+
+    # Gets valid potential moves
+    def get_valid_moves(self, piece):
+        moves = {} # Store potential moves
+        left = piece.col - 1 
+        right = piece.col + 1
+        row = piece.row
+
+        # Valid moves
+        if piece.color == RED or piece.king:
+            moves.update(self._traverse_left(row - 1, max(row - 3, -1), -1, piece.color, left))
+            moves.update(self._traverse_right(row - 1, max(row - 3, -1), -1, piece.color, right))
+        if piece.color == WHITE or piece.king:
+            moves.update(self._traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left))
+            moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
+        return moves
+
+    # Look at left diagonal
+    def _traverse_left(self, start, stop, step, color, left, skipped = []):
+        moves = {}
+        last = [] # Pieces that would be skipped to move to desired square
+        for r in range(start, stop, step):
+            # If potential move is outside of board, stop
+            if left < 0:
+                break
+            current = self.board[r][left]
+            # Found empty square
+            if current == 0:
+                # If a piece was jumped over and there isn't another piece that can be skipped, can't move to square
+                if skipped and not last:
+                    break
+                # Double jump, combine last skipped with next skipped piece
+                elif skipped:
+                    moves[(r, left)] = last + skipped
+                else:
+                    moves[(r, left)] = last # Add as possible move
+                # Have piece jumped over, check if double jump is possible
+                if last:
+                    # Check which direction piece will be moved
+                    if step == -1:
+                        row = max(r - 3, 0)
+                    else:
+                        row = min(r + 3, ROWS)
+                    # Call recursively to see double jump
+                    moves.update(self._traverse_left(r + step, row, step, color, left - 1, skipped = last))
+                    moves.update(self._traverse_right(r + step, row, step, color, left + 1, skipped = last))
+                    break
+            # Same pieces can't be jumped over
+            elif current.color == color:
+                break
+            # If other color, store in potential skip moves
+            else:
+                last = [current]
+            left -= 1
+        return moves
+
+    # Look at right diagonal
+    def _traverse_right(self, start, stop, step, color, right, skipped = []):
+        moves = {}
+        last = [] # Pieces that would be skipped to move to desired square
+        for r in range(start, stop, step):
+            # If potential move is outside of board, stop
+            if right >= COLS:
+                break
+            current = self.boardself.board[r][right]
+            # Found empty square
+            if current == 0:
+                # If a piece was jumped over and there isn't another piece that can be skipped, can't move to square
+                if skipped and not last:
+                    break
+                # Double jump, combine last skipped with next skipped piece
+                elif skipped:
+                    moves[(r, right)] = last + skipped
+                else:
+                    moves[(r, right)] = last # Add as possible move
+                # Have piece jumped over, check if double jump is possible
+                if last:
+                    # Check which direction piece will be moved
+                    if step == -1:
+                        row = max(r - 3, 0)
+                    else:
+                        row = min(r + 3, ROWS)
+                    # Call recursively to see double jump
+                    moves.update(self._traverse_left(r + step, row, step, color, right - 1, skipped = last))
+                    moves.update(self._traverse_right(r + step, row, step, color, right + 1, skipped = last))
+                    break
+            # Same pieces can't be jumped over
+            elif current.color == color:
+                break
+            # If other color, store in potential skip moves
+            else:
+                last = [current]
+            right += 1
+        return moves
